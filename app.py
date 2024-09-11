@@ -1,5 +1,7 @@
 import streamlit as st
+from contrato import Vendas
 from datetime import datetime,time
+from pydantic import ValidationError
 
 # st.write("esse é meu dashboard")
 # st.button("esse é um botão")
@@ -54,13 +56,25 @@ def main():
 
     if st.button("Salvar"):
 
-        data_hora = datetime.combine(data, hora)
-        st.write("**Dados da venda**")
-        st.write(f"Email do vendedor: {email}")
-        st.write(f"Data e hora da venda: {data_hora}")
-        st.write(f"Valor da venda: {valor:.2f}")
-        st.write(f"Qtd de produtos: {quantidade}")
-        st.write(f"Produto: {produto}")
+        try:
+            data_hora = datetime.combine(data, hora)
+            venda = Vendas(
+                email = email,
+                data = data_hora,
+                valor = valor,
+                quantidade = quantidade,
+                produto = produto
+            )
+            st.write(venda)
+        except ValidationError as e:
+            st.error(f"Deu erro {e}")
+
+        # st.write("**Dados da venda**")
+        # st.write(f"Email do vendedor: {email}")
+        # st.write(f"Data e hora da venda: {data_hora}")
+        # st.write(f"Valor da venda: {valor:.2f}")
+        # st.write(f"Qtd de produtos: {quantidade}")
+        # st.write(f"Produto: {produto}")
 # Utilizado para rodar somente em caso de acesso direto.
 # Chamada via backend desconsidera esta parte abaixo
 
