@@ -2,6 +2,7 @@ import streamlit as st
 from contrato import Vendas
 from datetime import datetime,time
 from pydantic import ValidationError
+from database import salvar_no_postgres
 
 # st.write("esse é meu dashboard")
 # st.button("esse é um botão")
@@ -66,6 +67,7 @@ def main():
                 produto = produto
             )
             st.write(venda)
+            salvar_no_postgres(Vendas)
         except ValidationError as e:
             st.error(f"Deu erro {e}")
 
