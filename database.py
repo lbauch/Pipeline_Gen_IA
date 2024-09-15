@@ -30,7 +30,7 @@ def salvar_no_postgres(dados: Vendas):
           dados.data,
           dados.valor,
           dados.quantidade,
-          dados.produto.value  
+          dados.produto 
         ))
         conn.commit()
         cursor.close()
